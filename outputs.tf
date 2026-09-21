@@ -17,47 +17,47 @@
 # =============================================================================
 
 output "pve_node" {
-  description = "Name of the Proxmox Node"
+  description = "Name of the Proxmox Node."
   value       = resource.proxmox_virtual_environment_vm.pve_vm.node_name
 }
 
 output "pve_id" {
-  description = "Proxmox ID of the instance"
+  description = "Proxmox ID of the instance."
   value       = resource.proxmox_virtual_environment_vm.pve_vm.vm_id
 }
 
 output "pve_pool" {
-  description = "Proxmox Pool of the instance"
+  description = "Proxmox Pool of the instance."
   value       = resource.proxmox_virtual_environment_vm.pve_vm.pool_id
 }
 
 output "pve_type" {
-  description = "Proxmox type of virtualization"
+  description = "Proxmox type of virtualization."
   value       = "qemu"
 }
 
 output "name" {
-  description = "Name of the instance"
+  description = "Name of the instance."
   value       = resource.proxmox_virtual_environment_vm.pve_vm.name
 }
 
 output "cpu" {
-  description = "Number of CPU of the instance"
+  description = "Number of CPU of the instance."
   value       = resource.proxmox_virtual_environment_vm.pve_vm.cpu[0].cores
 }
 
 output "mem" {
-  description = "Memory size of the instance"
+  description = "Memory size of the instance."
   value       = resource.proxmox_virtual_environment_vm.pve_vm.memory[0].dedicated
 }
 
 output "bios" {
-  description = "BIOS of the instance"
+  description = "BIOS of the instance."
   value       = resource.proxmox_virtual_environment_vm.pve_vm.bios
 }
 
 output "disk" {
-  description = "Disk information of the instance"
+  description = "Disk information of the instance. Contains `datastore_id`, `format`, `path`, `interface` and `size` of the disk."
   value = [
     for disk in proxmox_virtual_environment_vm.pve_vm.disk :
     {
@@ -71,7 +71,7 @@ output "disk" {
 }
 
 output "efi_disk" {
-  description = "EFI Disk information of the instance"
+  description = "EFI Disk information of the instance. Contains `datastore_id`, `format`, `pre_enrolled_keys` and `size` of the disk."
   value = [
     for efi_disk in proxmox_virtual_environment_vm.pve_vm.efi_disk :
     {
@@ -84,7 +84,7 @@ output "efi_disk" {
 }
 
 output "iface" {
-  description = "List of Iface of the instance"
+  description = "List of iface of the instance (excluding the `lo` iface)."
   value = [
     for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
     name
@@ -93,10 +93,10 @@ output "iface" {
 }
 
 output "ip" {
-  description = "Couple Iface / IP of the instance"
+  description = "Couple iface => List of IP of the instance"
   value = {
     for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
-    name => proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx][0]
+    name => proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx]
     if name != "lo" && length(proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx]) > 0
   }
 }
