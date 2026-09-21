@@ -18,5 +18,5 @@
 
 output "module" {
   description = "Module"
-  value = module.pve_vm
+  value       = module.pve_vm
 }
