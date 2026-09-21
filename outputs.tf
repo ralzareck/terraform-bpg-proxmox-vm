@@ -32,7 +32,7 @@ output "pve_pool" {
 }
 
 output "pve_type" {
-  description = "Proxmox type of viirtualization"
+  description = "Proxmox type of virtualization"
   value       = "qemu"
 }
 
@@ -71,7 +71,7 @@ output "disk" {
 }
 
 output "efi_disk" {
-  description = "Disk information of the instance"
+  description = "EFI Disk information of the instance"
   value = [
     for efi_disk in proxmox_virtual_environment_vm.pve_vm.efi_disk :
     {
@@ -84,7 +84,7 @@ output "efi_disk" {
 }
 
 output "iface" {
-  description = "Iface of the instance"
+  description = "List of Iface of the instance"
   value = [
     for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
     name
@@ -93,7 +93,7 @@ output "iface" {
 }
 
 output "ip" {
-  description = "IP of the instance"
+  description = "Couple Iface / IP of the instance"
   value = {
     for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
     name => proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx][0]
