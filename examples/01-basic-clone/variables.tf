@@ -17,29 +17,29 @@
 # =============================================================================
 
 variable "proxmox_host" {
-  description = "Proxmox API Host. has to be in thr form IP:PORT."
+  description = "Proxmox API Host. Has to be in the form IP:PORT."
   type        = string
 }
 
 variable "proxmox_node" {
-  description = "Which node in the Proxmox cluster to start the virtual machine on during creation."
+  description = "Proxmox node on which the virtual machine will be created."
   type        = string
 }
 
 variable "proxmox_api_token_id" {
-  description = "API Token ID."
+  description = "Proxmox API Token ID."
   sensitive   = true
   type        = string
 }
 
 variable "proxmox_api_token_secret" {
-  description = "API Token Secret."
+  description = "Proxmox API Token Secret."
   sensitive   = true
   type        = string
 }
 
-variable "proxmox_ssk_private_key" {
-  description = "The SSH private key to be used when connecting via SSH."
+variable "proxmox_ssh_private_key" {
+  description = "The SSH private key to use when connecting via SSH to the Proxmox node."
   sensitive   = true
   type        = string
 }
