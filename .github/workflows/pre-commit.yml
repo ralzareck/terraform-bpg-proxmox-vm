@@ -13,7 +13,7 @@ env:
   COMMIT_EMAIL: 'noreply@github.com'
   OPENTOFU_VERSION: '1.9.0'
   TERRAFORM_DOCS_VERSION: '0.19.0'
-  TFLINT_VERSION: 'latest'
+  TFLINT_VERSION: '0.58.1'
   TFLINT_REPO: 'ralzareck/tflint-config'
   TFLINT_REPO_REF: 'main'
   TFLINT_REPO_CONFIG_PATH: 'module'
