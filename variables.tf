@@ -283,7 +283,7 @@ variable "vm_init" {
 
 variable "vm_user_data" {
   type        = string
-  description = "cloud-init configuration for the VM's users"
+  description = "cloud-init configuration for the VM's users."
   nullable    = true
   default     = null
 }

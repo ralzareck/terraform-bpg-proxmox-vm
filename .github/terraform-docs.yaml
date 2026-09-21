@@ -141,6 +141,8 @@ content: |-
     {{- else -}}
   {{- indent 0 "#" }} Outputs
 
+  Here are the outputs of the module:
+
   | Name | Description |
   |------|-------------|
       {{- range .Module.Outputs }}

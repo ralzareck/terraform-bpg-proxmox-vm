@@ -17,6 +17,6 @@
 # =============================================================================
 
 output "module" {
-  description = "Module"
+  description = "Module Output."
   value       = module.pve_vm
 }
