@@ -63,4 +63,21 @@ Here are the input variables of the module:
 | <a name="input_vm_fw_opts"></a> [vm\_fw\_opts](#input\_vm\_fw\_opts) | Firewall settings for the VM. | <pre>object({<br/>    enabled       = bool<br/>    dhcp          = optional(bool)<br/>    input\_policy  = optional(string)<br/>    output\_policy = optional(string)<br/>    macfilter     = optional(bool)<br/>    ipfilter      = optional(bool)<br/>    ndp           = optional(bool)<br/>    radv          = optional(bool)<br/>  })</pre> | `null` | **no** |
 | <a name="input_vm_fw_rules"></a> [vm\_fw\_rules](#input\_vm\_fw\_rules) | Firewall rules for the VM. | <pre>map(object({<br/>    enabled   = optional(bool, true)<br/>    action    = string<br/>    direction = string<br/>    iface     = optional(string)<br/>    proto     = optional(string)<br/>    srcip     = optional(string)<br/>    srcport   = optional(string)<br/>    destip    = optional(string)<br/>    destport  = optional(string)<br/>    comment   = optional(string)<br/>  }))</pre> | `null` | **no** |
 | <a name="input_vm_fw_group"></a> [vm\_fw\_group](#input\_vm\_fw\_group) | Firewall Security Groups for the VM. | <pre>map(object({<br/>    enabled = optional(bool, true)<br/>    iface   = optional(string)<br/>    comment = optional(string)<br/>  }))</pre> | `null` | **no** |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_pve_node"></a> [pve\_node](#output\_pve\_node) | Name of the Proxmox Node |
+| <a name="output_pve_id"></a> [pve\_id](#output\_pve\_id) | Proxmox ID of the instance |
+| <a name="output_pve_pool"></a> [pve\_pool](#output\_pve\_pool) | Proxmox Pool of the instance |
+| <a name="output_pve_type"></a> [pve\_type](#output\_pve\_type) | Proxmox type of virtualization |
+| <a name="output_name"></a> [name](#output\_name) | Name of the instance |
+| <a name="output_cpu"></a> [cpu](#output\_cpu) | Number of CPU of the instance |
+| <a name="output_mem"></a> [mem](#output\_mem) | Memory size of the instance |
+| <a name="output_bios"></a> [bios](#output\_bios) | BIOS of the instance |
+| <a name="output_disk"></a> [disk](#output\_disk) | Disk information of the instance |
+| <a name="output_efi_disk"></a> [efi\_disk](#output\_efi\_disk) | EFI Disk information of the instance |
+| <a name="output_iface"></a> [iface](#output\_iface) | List of Iface of the instance |
+| <a name="output_ip"></a> [ip](#output\_ip) | Couple Iface / IP of the instance |
 <!-- END_TF_DOCS -->

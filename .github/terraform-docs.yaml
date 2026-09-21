@@ -6,7 +6,7 @@ sections:
     - modules
     - resources
     - inputs
-    # - outputs
+    - outputs
 
 settings:
   anchor: true
