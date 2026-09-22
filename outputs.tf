@@ -96,7 +96,10 @@ output "ip" {
   description = "Couple iface => List of IP of the instance"
   value = {
     for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
-    name => proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx]
+    name => [
+      for ip in proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx] :
+        split("/", ip)[0]
+    ]
     if name != "lo" && length(proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx]) > 0
   }
 }
