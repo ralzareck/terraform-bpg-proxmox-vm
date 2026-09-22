@@ -92,6 +92,15 @@ output "iface" {
   ]
 }
 
+output "mac_addresses" {
+  description = "Couple iface => List of MAC addresses of the instance."
+  value = {
+    for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
+    name => proxmox_virtual_environment_vm.pve_vm.network_device[idx - 1].mac_address
+    if name != "lo"
+  }
+}
+
 output "ip" {
   description = "Couple iface => List of IP of the instance"
   value = {
