@@ -81,5 +81,7 @@ Here are the outputs of the module:
 | <a name="output_disk"></a> [disk](#output\_disk) | Disk information of the instance. Contains `datastore_id`, `format`, `path`, `interface` and `size` of the disk. |
 | <a name="output_efi_disk"></a> [efi\_disk](#output\_efi\_disk) | EFI Disk information of the instance. Contains `datastore_id`, `format`, `pre_enrolled_keys` and `size` of the disk. |
 | <a name="output_iface"></a> [iface](#output\_iface) | List of iface of the instance (excluding the `lo` iface). |
-| <a name="output_ip"></a> [ip](#output\_ip) | Couple iface => List of IP of the instance |
+| <a name="output_mac_addresses"></a> [mac\_addresses](#output\_mac\_addresses) | Couple iface => List of MAC addresses of the instance. |
+| <a name="output_ipv4_addresses"></a> [ipv4\_addresses](#output\_ipv4\_addresses) | Couple iface => List of IPv4 of the instance |
+| <a name="output_ipv6_addresses"></a> [ipv6\_addresses](#output\_ipv6\_addresses) | Couple iface => List of IPv6 of the instance |
 <!-- END_TF_DOCS -->
