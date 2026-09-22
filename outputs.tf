@@ -98,7 +98,7 @@ output "ip" {
     for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
     name => [
       for ip in proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx] :
-        split("/", ip)[0]
+      split("/", ip)[0]
     ]
     if name != "lo" && length(proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx]) > 0
   }
