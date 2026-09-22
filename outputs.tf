@@ -103,3 +103,15 @@ output "ip" {
     if name != "lo" && length(proxmox_virtual_environment_vm.pve_vm.ipv4_addresses[idx]) > 0
   }
 }
+
+output "ipv6_addresses" {
+  description = "Couple iface => List of IPv6 of the instance"
+  value = {
+    for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
+    name => [
+      for ip in proxmox_virtual_environment_vm.pve_vm.ipv6_addresses[idx] :
+      split("/", ip)[0]
+    ]
+    if name != "lo" && length(proxmox_virtual_environment_vm.pve_vm.ipv6_addresses[idx]) > 0
+  }
+}
