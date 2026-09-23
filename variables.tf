@@ -124,8 +124,8 @@ variable "vm_agent" {
     wait_ipv6 = optional(bool, false)
   })
   description = "The QEMU guest agent settings of the VM"
-  default = null
-  nullable = true
+  default     = null
+  nullable    = true
 }
 
 variable "vm_bios" {
