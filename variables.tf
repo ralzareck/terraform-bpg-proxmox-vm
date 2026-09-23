@@ -118,8 +118,10 @@ variable "vm_start" {
 
 variable "vm_agent" {
   type = object({
-    enabled = optional(bool)
-    type    = optional(string, "virtio")
+    enabled   = optional(bool, false)
+    type      = optional(string, "virtio")
+    wait_ipv4 = optional(bool, false)
+    wait_ipv6 = optional(bool, false)
   })
   description = "The QEMU guest agent settings of the VM"
   default = null

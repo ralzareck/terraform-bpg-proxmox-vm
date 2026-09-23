@@ -46,6 +46,11 @@ resource "proxmox_virtual_environment_vm" "pve_vm" {
     content {
       enabled = var.vm_agent.enabled
       type    = var.vm_agent.type
+      wait_for_ip {
+        disabled = false
+        ipv4     = var.vm_agent.wait_ipv4
+        ipv6     = var.vm_agent.wait_ipv6
+      }
     }
   }
 
