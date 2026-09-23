@@ -95,9 +95,8 @@ output "iface" {
 output "mac_addresses" {
   description = "Couple iface => List of MAC addresses of the instance."
   value = {
-    for idx, name in proxmox_virtual_environment_vm.pve_vm.network_interface_names :
-    name => proxmox_virtual_environment_vm.pve_vm.network_device[idx - 1].mac_address
-    if name != "lo"
+    for idx in range(length(proxmox_virtual_environment_vm.pve_vm.network_device)) :
+    proxmox_virtual_environment_vm.pve_vm.network_interface_names[idx + 1] => proxmox_virtual_environment_vm.pve_vm.network_device[idx].mac_address
   }
 }
 

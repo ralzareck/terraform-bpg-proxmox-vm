@@ -24,6 +24,11 @@ module "pve_vm" {
   vm_type  = "clone"
   pve_node = var.proxmox_node
 
+  vm_agent = {
+    enabled = true
+    type    = "virtio"
+  }
+
   src_clone = {
     datastore_id = "data"
     tpl_id       = 1000
