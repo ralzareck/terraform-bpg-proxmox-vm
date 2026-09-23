@@ -106,7 +106,7 @@ variable "vm_start" {
     up_delay   = optional(number, 0)
     down_delay = optional(number, 0)
   })
-  description = "The start settings for the VM."
+  description = "The start settings of the VM."
   default = {
     on_deploy  = true
     on_boot    = true
@@ -114,6 +114,16 @@ variable "vm_start" {
     up_delay   = 0
     down_delay = 0
   }
+}
+
+variable "vm_agent" {
+  type = object({
+    enabled = optional(bool)
+    type    = optional(string, "virtio")
+  })
+  description = "The QEMU guest agent settings of the VM"
+  default = null
+  nullable = true
 }
 
 variable "vm_bios" {

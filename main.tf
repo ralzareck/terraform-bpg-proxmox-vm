@@ -41,6 +41,14 @@ resource "proxmox_virtual_environment_vm" "pve_vm" {
     down_delay = var.vm_start.down_delay
   }
 
+  dynamic "agent" {
+    for_each = (var.vm_agent != null) ? ["enabled"] : []
+    content {
+      enabled = var.vm_agent.enabled
+      type    = var.vm_agent.type
+    }
+  }
+
   dynamic "clone" {
     for_each = (var.vm_type == "clone") ? ["enabled"] : []
     content {
