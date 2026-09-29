@@ -76,7 +76,7 @@ module "pve_vm" {
     datastore_id = "local"
     interface    = "ide0"
     dns = {
-      domain = "home.internal"
+      domain  = "home.internal"
       servers = ["8.8.8.8"]
     }
   }
