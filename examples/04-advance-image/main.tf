@@ -29,11 +29,26 @@ module "pve_vm" {
     file_name    = "noble-server-cloudimg-amd64.img"
   }
 
-  vm_name = "example-basic-image"
+  vm_name = "example-advanced-template"
+
+  vm_start = {
+    on_deploy = true
+    on_boot   = true
+    order     = 0
+  }
 
   vm_agent = {
-    enabled = true
-    type    = "virtio"
+    enabled   = true
+    type      = "virtio"
+    wait_ipv4 = true
+  }
+
+  vm_cpu = {
+    cores = 2
+  }
+
+  vm_mem = {
+    dedicated = 4096
   }
 
   vm_bios = "ovmf"
@@ -60,5 +75,31 @@ module "pve_vm" {
   vm_init = {
     datastore_id = "local"
     interface    = "ide0"
+    dns = {
+      domain  = "home.internal"
+      servers = ["8.8.8.8"]
+    }
   }
+
+  fw_opts = {
+    enabled       = true
+    macfilter     = true
+    ipfilter      = true
+    input_policy  = "DROP"
+    output_policy = "ACCEPT"
+  }
+
+  fw_rules = [
+    {
+      enabled   = true
+      direction = "in"
+      action    = "ACCEPT"
+      iface     = "net0"
+      proto     = "tcp"
+      srcip     = "10.0.0.0/16"
+      dstport   = 22
+      comment   = "Allow TCP connections to authorized ports."
+      log       = "info"
+    }
+  ]
 }
