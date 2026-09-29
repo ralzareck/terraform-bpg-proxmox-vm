@@ -29,7 +29,12 @@ module "pve_vm" {
     file_name    = "noble-server-cloudimg-amd64.img"
   }
 
-  vm_name = "example-basic"
+  vm_name = "example-basic-image"
+
+  vm_agent = {
+    enabled = true
+    type    = "virtio"
+  }
 
   vm_bios = "ovmf"
   vm_efi_disk = {
@@ -47,7 +52,7 @@ module "pve_vm" {
   vm_net_ifaces = {
     net0 = {
       bridge    = "vmbr0"
-      ipv4_addr = "10.0.0.1/24"
+      ipv4_addr = "10.0.0.10/24"
       ipv4_gw   = "10.0.0.1"
     }
   }
