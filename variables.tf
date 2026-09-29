@@ -304,7 +304,7 @@ variable "vm_user_data" {
 # ===== Host Firewall =========================================================
 # =============================================================================
 
-variable "vm_fw_opts" {
+variable "fw_opts" {
   type = object({
     enabled       = bool
     dhcp          = optional(bool, true)
@@ -312,18 +312,27 @@ variable "vm_fw_opts" {
     radv          = optional(bool, false)
     macfilter     = optional(bool, true)
     ipfilter      = optional(bool, false)
-    input_policy  = optional(string, "DENY")
+    input_policy  = optional(string, "DROP")
     output_policy = optional(string, "ACCEPT")
-    log_level_in  = optional(string, "info")
-    log_level_out = optional(string, "info")
+    log_level_in  = optional(string, "nolog")
+    log_level_out = optional(string, "nolog")
   })
   description = "Firewall settings for the VM."
-  default     = {
-    enabled = false
+  default = {
+    enabled       = false
+    dhcp          = true
+    ndp           = false
+    radv          = false
+    macfilter     = true
+    ipfilter      = false
+    input_policy  = "DROP"
+    output_policy = "ACCEPT"
+    log_level_in  = "nolog"
+    log_level_out ="nolog"
   }
 }
 
-variable "vm_fw_rules" {
+variable "fw_rules" {
   type = list(object({
     enabled   = optional(bool, true)
     action    = optional(string)
@@ -332,21 +341,21 @@ variable "vm_fw_rules" {
     proto     = optional(string)
     srcip     = optional(string)
     srcport   = optional(string)
-    destip    = optional(string)
-    destport  = optional(string)
+    dstip    = optional(string)
+    dstport  = optional(string)
     comment   = optional(string)
+    log       = optional(string)
   }))
   description = "Firewall rules for the VM."
-  default     = [ ]
+  default = [ ]
 }
 
-
-variable "vm_fw_group" {
+variable "fw_security_groups" {
   type = map(object({
     enabled = optional(bool, true)
     iface   = optional(string)
     comment = optional(string)
   }))
   description = "Firewall Security Groups for the VM."
-  default     =  { }
+  default = { }
 }

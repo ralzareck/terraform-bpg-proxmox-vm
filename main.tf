@@ -211,62 +211,73 @@ resource "proxmox_virtual_environment_vm" "pve_vm" {
 # = VM Firewall ===============================================================
 # =============================================================================
 
-resource "proxmox_virtual_environment_firewall_options" "pve_vm_fw_opts" {
-  depends_on = [proxmox_virtual_environment_vm.pve_vm]
+resource "proxmox_virtual_environment_firewall_options" "pve_fw_opts" {
+  depends_on = [
+    proxmox_virtual_environment_vm.pve_vm
+  ]
   # Proxmox
   node_name = proxmox_virtual_environment_vm.pve_vm.node_name
   vm_id     = proxmox_virtual_environment_vm.pve_vm.vm_id
 
-  enabled       = var.vm_fw_opts.enabled
-  dhcp          = var.vm_fw_opts.dhcp
-  ndp           = var.vm_fw_opts.ndp
-  radv          = var.vm_fw_opts.radv
-  macfilter     = var.vm_fw_opts.macfilter
-  ipfilter      = var.vm_fw_opts.ipfilter
-  input_policy  = var.vm_fw_opts.input_policy
-  output_policy = var.vm_fw_opts.output_policy
-  log_level_in  = var.vm_fw_opts.log_level_in
-  log_level_out = var.vm_fw_opts.log_level_in
+  enabled       = var.fw_opts.enabled
+  dhcp          = var.fw_opts.dhcp
+  ndp           = var.fw_opts.ndp
+  radv          = var.fw_opts.radv
+  macfilter     = var.fw_opts.macfilter
+  ipfilter      = var.fw_opts.ipfilter
+  input_policy  = var.fw_opts.input_policy
+  output_policy = var.fw_opts.output_policy
+  log_level_in  = var.fw_opts.log_level_in
+  log_level_out = var.fw_opts.log_level_in
 }
 
-ressource "proxmox_virtual_environment_firewall_alias" "pve_vm_fw_alias" {
-  depends_on = [proxmox_virtual_environment_vm.pve_vm, proxmox_virtual_environment_firewall_options.pve_vm_fw_opts]
-  count = proxmox_virtual_environment_firewall_options.pve_vm_fw_opts.ipfilter ? length(proxmox_virtual_environment_vm.pve_vm.network_device) : 0
+resource "proxmox_virtual_environment_firewall_alias" "pve_fw_alias" {
+  depends_on = [
+    proxmox_virtual_environment_vm.pve_vm,
+    proxmox_virtual_environment_firewall_options.pve_fw_opts
+  ]
+  count = proxmox_virtual_environment_firewall_options.pve_fw_opts.ipfilter ? length(proxmox_virtual_environment_vm.pve_vm.network_device) : 0
 
   # Proxmox
   node_name = proxmox_virtual_environment_vm.pve_vm.node_name
   vm_id     = proxmox_virtual_environment_vm.pve_vm.vm_id
 
-  name    = "alias-net${count.index}"
-  comment = "net${count.index} interface alias. Managed by Terraform"
-  cidr    = split("/", proxmox_virtual_environment_container.pve_vm.initialization[0].ip_config[count.index].ipv4[0])
+  name    = "ip-net${count.index}"
+  comment = "IP Alias for net${count.index} interface."
+  cidr    = split("/", proxmox_virtual_environment_vm.pve_vm.initialization[0].ip_config[count.index].ipv4[0].address)[0]
 }
 
-ressource "proxmox_virtual_environment_firewall_ipset" "pve_vm_fw_ipset" {
-  depends_on = [proxmox_virtual_environment_vm.pve_vm, proxmox_virtual_environment_firewall_options.pve_vm_fw_opts]
-  count = proxmox_virtual_environment_firewall_options.pve_vm_fw_opts.ipfilter ? length(proxmox_virtual_environment_vm.pve_vm.network_device) : 0
+resource "proxmox_virtual_environment_firewall_ipset" "pve_fw_ipset" {
+  depends_on = [
+    proxmox_virtual_environment_vm.pve_vm,
+    proxmox_virtual_environment_firewall_options.pve_fw_opts,
+    proxmox_virtual_environment_firewall_alias.pve_fw_alias
+  ]
+  count = proxmox_virtual_environment_firewall_options.pve_fw_opts.ipfilter ? length(proxmox_virtual_environment_vm.pve_vm.network_device) : 0
 
   # Proxmox
   node_name = proxmox_virtual_environment_vm.pve_vm.node_name
   vm_id     = proxmox_virtual_environment_vm.pve_vm.vm_id
 
-  name    = "ipset-net${count.index}"
-  comment = "ipfilter set. Managed by Terraform"
+  name    = "ipfilter-net${count.index}"
+  comment = "IPSet for net${count.index} interface."
 
   cidr {
-    name    = "alias-net${count.index}"
-    comment = "net${count.index} interface. Managed by Terraform"
+    name    = proxmox_virtual_environment_firewall_alias.pve_fw_alias[count.index].id
+    comment = "CIDR for net${count.index} interface."
   }
 }
 
-resource "proxmox_virtual_environment_firewall_rules" "pve_vm_fw_rules" {
-  depends_on = [proxmox_virtual_environment_vm.pve_vm]
+resource "proxmox_virtual_environment_firewall_rules" "pve_fw_rules" {
+  depends_on = [
+    proxmox_virtual_environment_vm.pve_vm
+  ]
   # Proxmox
   node_name = proxmox_virtual_environment_vm.pve_vm.node_name
   vm_id     = proxmox_virtual_environment_vm.pve_vm.vm_id
 
   dynamic "rule" {
-    for_each = var.vm_fw_rules
+    for_each = var.fw_rules
     content {
       enabled = rule.value.enabled
       action  = rule.value.action
@@ -275,19 +286,19 @@ resource "proxmox_virtual_environment_firewall_rules" "pve_vm_fw_rules" {
       proto   = rule.value.proto
       source  = rule.value.srcip
       sport   = rule.value.srcport
-      dest    = rule.value.destip
-      dport   = rule.value.destport
-      comment = "${rule.value.comment == null ? "" : rule.value.comment}/. Managed by Terraform"
+      dest    = rule.value.dstip
+      dport   = rule.value.dstport
+      comment = rule.value.comment
     }
   }
 
   dynamic "rule" {
-    for_each = var.vm_fw_security_groups
+    for_each = var.fw_security_groups
     content {
       enabled        = rule.value.enabled
       security_group = rule.key
       iface          = rule.value.iface
-      comment        = "${rule.value.comment == null ? "" : rule.value.comment}. Managed by Terraform"
+      comment        = rule.value.comment
     }
   }
 }
