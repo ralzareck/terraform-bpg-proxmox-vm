@@ -91,15 +91,20 @@ module "pve_vm" {
 
   fw_rules = [
     {
-      enabled   = true
-      direction = "in"
-      action    = "ACCEPT"
-      iface     = "net0"
-      proto     = "tcp"
-      srcip     = "10.0.0.0/16"
-      dstport   = 22
-      comment   = "Allow TCP connections to authorized ports."
-      log       = "info"
+      enabled = true, direction = "in", action = "ACCEPT"
+      iface   = "net0"
+      proto   = "tcp"
+      srcip   = "10.31.0.0/16"
+      dstport = "22"
+      comment = "Allow TCP connections to SSH port.", log = "info"
+    },
+    {
+      enabled = true, direction = "in", action = "ACCEPT"
+      iface   = "net0"
+      proto   = "tcp"
+      srcip   = "10.31.0.0/16"
+      dstport = "443"
+      comment = "Allow TCP connections to HTTPS port.", log = "nolog"
     }
   ]
 }
