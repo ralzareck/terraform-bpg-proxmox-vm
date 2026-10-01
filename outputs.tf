@@ -134,15 +134,15 @@ output "fw_rules_in" {
       firewall = [
         for idx, rule in proxmox_virtual_environment_firewall_rules.pve_fw_rules.rule :
         {
-          action    = rule.action != "" ? rule.action : null
-          proto     = rule.proto != "" ? rule.proto : null
-          dest      = rule.dest != "" ? rule.dest : null
-          dport     = rule.dport != "" ? rule.dport : null
-          source    = rule.source != "" ? rule.source : null
-          sport     = rule.sport != "" ? rule.sport : null
-          log       = rule.log != "nolog" ? rule.log : null
-          prefix    = rule.log != "nolog" ? var.fw_rules[idx].prefix : null
-          comment   = rule.comment != "" ? rule.comment : null
+          action  = rule.action != "" ? rule.action : null
+          proto   = rule.proto != "" ? rule.proto : null
+          dest    = rule.dest != "" ? rule.dest : null
+          dport   = rule.dport != "" ? rule.dport : null
+          source  = rule.source != "" ? rule.source : null
+          sport   = rule.sport != "" ? rule.sport : null
+          log     = rule.log != "nolog" ? rule.log : null
+          prefix  = rule.log != "nolog" ? var.fw_rules[idx].prefix : null
+          comment = rule.comment != "" ? rule.comment : null
         }
         if rule.type == "in" && rule.iface == "net${id}" && rule.enabled
       ]
@@ -160,15 +160,15 @@ output "fw_rules_out" {
       firewall = [
         for idx, rule in proxmox_virtual_environment_firewall_rules.pve_fw_rules.rule :
         {
-          action    = rule.action != "" ? rule.action : null
-          proto     = rule.proto != "" ? rule.proto : null
-          dest      = rule.dest != "" ? rule.dest : null
-          dport     = rule.dport != "" ? rule.dport : null
-          source    = rule.source != "" ? rule.source : null
-          sport     = rule.sport != "" ? rule.sport : null
-          log       = rule.log != "nolog" ? rule.log : null
-          prefix    = rule.log != "nolog" ? var.fw_rules[idx].prefix : null
-          comment   = rule.comment != "" ? rule.comment : null
+          action  = rule.action != "" ? rule.action : null
+          proto   = rule.proto != "" ? rule.proto : null
+          dest    = rule.dest != "" ? rule.dest : null
+          dport   = rule.dport != "" ? rule.dport : null
+          source  = rule.source != "" ? rule.source : null
+          sport   = rule.sport != "" ? rule.sport : null
+          log     = rule.log != "nolog" ? rule.log : null
+          prefix  = rule.log != "nolog" ? var.fw_rules[idx].prefix : null
+          comment = rule.comment != "" ? rule.comment : null
         }
         if rule.type == "out" && rule.iface == "net${id}" && rule.enabled
       ]
