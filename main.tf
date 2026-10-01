@@ -289,6 +289,7 @@ resource "proxmox_virtual_environment_firewall_rules" "pve_fw_rules" {
       dest    = rule.value.dstip
       dport   = rule.value.dstport
       comment = rule.value.comment
+      log     = rule.value.log
     }
   }
 

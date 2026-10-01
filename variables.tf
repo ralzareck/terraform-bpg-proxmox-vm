@@ -252,16 +252,17 @@ variable "vm_disk" {
 
 variable "vm_net_ifaces" {
   type = map(object({
-    bridge     = string
-    enabled    = optional(bool, true)
-    firewall   = optional(bool, true)
-    mac_addr   = optional(string)
-    model      = optional(string, "virtio")
-    mtu        = optional(number, 1500)
-    rate_limit = optional(string)
-    vlan_id    = optional(number)
-    ipv4_addr  = string
-    ipv4_gw    = string
+    description = optional(string)
+    bridge      = string
+    enabled     = optional(bool, true)
+    firewall    = optional(bool, true)
+    mac_addr    = optional(string)
+    model       = optional(string, "virtio")
+    mtu         = optional(number, 1500)
+    rate_limit  = optional(string)
+    vlan_id     = optional(number)
+    ipv4_addr   = string
+    ipv4_gw     = string
   }))
   description = "VM network interfaces configuration. Terraform provider bpg/proxmox cannot work properly without network access."
 
@@ -344,7 +345,8 @@ variable "fw_rules" {
     dstip     = optional(string)
     dstport   = optional(string)
     comment   = optional(string)
-    log       = optional(string)
+    log       = optional(string, "nolog")
+    prefix    = optional(string)
   }))
   description = "Firewall rules for the VM."
   default     = []
