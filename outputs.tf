@@ -123,3 +123,55 @@ output "ipv6_addresses" {
     if name != "lo" && length(proxmox_virtual_environment_vm.pve_vm.ipv6_addresses[idx]) > 0
   }
 }
+
+output "fw_rules_in" {
+  description = "List of input firewall rules of the instance."
+  value = {
+    for id in range(length(proxmox_virtual_environment_vm.pve_vm.network_device)) :
+    proxmox_virtual_environment_vm.pve_vm.network_interface_names[id + 1] => {
+      name        = keys(var.vm_net_ifaces)[id]
+      description = var.vm_net_ifaces["net${id}"].description
+      firewall = [
+        for idx, rule in proxmox_virtual_environment_firewall_rules.pve_fw_rules.rule :
+        {
+          action  = rule.action != "" ? rule.action : null
+          proto   = rule.proto != "" ? rule.proto : null
+          dest    = rule.dest != "" ? rule.dest : null
+          dport   = rule.dport != "" ? rule.dport : null
+          source  = rule.source != "" ? rule.source : null
+          sport   = rule.sport != "" ? rule.sport : null
+          log     = rule.log != "nolog" ? rule.log : null
+          prefix  = rule.log != "nolog" ? var.fw_rules[idx].prefix : null
+          comment = rule.comment != "" ? rule.comment : null
+        }
+        if rule.type == "in" && rule.iface == "net${id}" && rule.enabled
+      ]
+    }
+  }
+}
+
+output "fw_rules_out" {
+  description = "List of output firewall rules of the instance."
+  value = {
+    for id in range(length(proxmox_virtual_environment_vm.pve_vm.network_device)) :
+    proxmox_virtual_environment_vm.pve_vm.network_interface_names[id + 1] => {
+      name        = keys(var.vm_net_ifaces)[id]
+      description = var.vm_net_ifaces["net${id}"].description
+      firewall = [
+        for idx, rule in proxmox_virtual_environment_firewall_rules.pve_fw_rules.rule :
+        {
+          action  = rule.action != "" ? rule.action : null
+          proto   = rule.proto != "" ? rule.proto : null
+          dest    = rule.dest != "" ? rule.dest : null
+          dport   = rule.dport != "" ? rule.dport : null
+          source  = rule.source != "" ? rule.source : null
+          sport   = rule.sport != "" ? rule.sport : null
+          log     = rule.log != "nolog" ? rule.log : null
+          prefix  = rule.log != "nolog" ? var.fw_rules[idx].prefix : null
+          comment = rule.comment != "" ? rule.comment : null
+        }
+        if rule.type == "out" && rule.iface == "net${id}" && rule.enabled
+      ]
+    }
+  }
+}
