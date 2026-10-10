@@ -124,6 +124,26 @@ output "ipv6_addresses" {
   }
 }
 
+output "fw_enabled" {
+  description = "Whether the firewall is enabled for the instance."
+  value       = var.fw_opts.enabled
+}
+
+output "fw_opts" {
+  description = "List of firewall options of the instance."
+  value = {
+    dhcp          = proxmox_virtual_environment_firewall_options.pve_fw_opts.dhcp
+    ndp           = proxmox_virtual_environment_firewall_options.pve_fw_opts.ndp
+    radv          = proxmox_virtual_environment_firewall_options.pve_fw_opts.radv
+    macfilter     = proxmox_virtual_environment_firewall_options.pve_fw_opts.macfilter
+    ipfilter      = proxmox_virtual_environment_firewall_options.pve_fw_opts.ipfilter
+    input_policy  = proxmox_virtual_environment_firewall_options.pve_fw_opts.input_policy
+    output_policy = proxmox_virtual_environment_firewall_options.pve_fw_opts.output_policy
+    log_level_in  = proxmox_virtual_environment_firewall_options.pve_fw_opts.log_level_in
+    log_level_out = proxmox_virtual_environment_firewall_options.pve_fw_opts.log_level_out
+  }
+}
+
 output "fw_rules_in" {
   description = "List of input firewall rules of the instance."
   value = {
