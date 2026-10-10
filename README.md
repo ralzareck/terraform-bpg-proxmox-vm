@@ -87,6 +87,8 @@ Here are the outputs of the module:
 | <a name="output_mac_addresses"></a> [mac\_addresses](#output\_mac\_addresses) | Couple iface => List of MAC addresses of the instance. |
 | <a name="output_ipv4_addresses"></a> [ipv4\_addresses](#output\_ipv4\_addresses) | Couple iface => List of IPv4 of the instance |
 | <a name="output_ipv6_addresses"></a> [ipv6\_addresses](#output\_ipv6\_addresses) | Couple iface => List of IPv6 of the instance |
+| <a name="output_fw_enabled"></a> [fw\_enabled](#output\_fw\_enabled) | Whether the firewall is enabled for the instance. |
+| <a name="output_fw_opts"></a> [fw\_opts](#output\_fw\_opts) | List of firewall options of the instance. |
 | <a name="output_fw_rules_in"></a> [fw\_rules\_in](#output\_fw\_rules\_in) | List of input firewall rules of the instance. |
 | <a name="output_fw_rules_out"></a> [fw\_rules\_out](#output\_fw\_rules\_out) | List of output firewall rules of the instance. |
 <!-- END_TF_DOCS -->
