@@ -149,7 +149,7 @@ output "fw_rules_in" {
   value = {
     for id in range(length(proxmox_virtual_environment_vm.pve_vm.network_device)) :
     proxmox_virtual_environment_vm.pve_vm.network_interface_names[id + 1] => {
-      name        = keys(var.vm_net_ifaces)[id]
+      name        = coalesce(var.vm_net_ifaces["net${id}"].name, keys(var.vm_net_ifaces)[id])
       description = var.vm_net_ifaces["net${id}"].description
       firewall = [
         for idx, rule in proxmox_virtual_environment_firewall_rules.pve_fw_rules.rule :
@@ -175,7 +175,7 @@ output "fw_rules_out" {
   value = {
     for id in range(length(proxmox_virtual_environment_vm.pve_vm.network_device)) :
     proxmox_virtual_environment_vm.pve_vm.network_interface_names[id + 1] => {
-      name        = keys(var.vm_net_ifaces)[id]
+      name        = coalesce(var.vm_net_ifaces["net${id}"].name, keys(var.vm_net_ifaces)[id])
       description = var.vm_net_ifaces["net${id}"].description
       firewall = [
         for idx, rule in proxmox_virtual_environment_firewall_rules.pve_fw_rules.rule :
