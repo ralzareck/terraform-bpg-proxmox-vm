@@ -252,6 +252,7 @@ variable "vm_disk" {
 
 variable "vm_net_ifaces" {
   type = map(object({
+    name        = optional(string)
     description = optional(string)
     bridge      = string
     enabled     = optional(bool, true)
